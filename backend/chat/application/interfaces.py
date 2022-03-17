@@ -42,7 +42,7 @@ class ChatRepo(ABC):
         ...
 
     @abstractmethod
-    def send_message(self, id: int, text: str):
+    def send_message(self, id: int,     text: str):
         ...
 
 
