@@ -1,0 +1,64 @@
+@startuml
+
+header Проект Чат
+title Схема БД
+
+hide circle
+skinparam linetype ortho
+
+
+entity user {
+  * **id**  :  int
+  __
+  **name**   :  varchar
+  __
+  **phone**  :  varchar
+  __
+  **jwt**        :  varchar
+}
+
+'entity banned_user {
+'  * **user**  :  fk user
+'  __
+'  * **chat**  :  fk chat
+'}
+
+
+entity user_chat {
+  * **user**  :  user.id
+  __
+  * **chat**  :  chat.id
+}
+
+
+entity message {
+  * **id**  :  int
+  __
+  * **user**  :  user.id
+  --
+  * **chat**  :  chat.id
+  --
+  * **message**  :  str
+  --
+  * **date_published**: datetime
+}
+
+entity chat {
+  * **id**  :  int
+  __
+  * **title**  :  varchar
+  __
+  * **chat_owner**  :  user.id
+  __
+  * **date_created**  : datetime
+}
+
+user }o--o| user_chat
+chat }o--o| user_chat
+'user }o--o| banned_user
+'chat }o--o| banned_user
+user }o--|| message
+chat }o--|| message
+user }o--|| chat
+
+@enduml

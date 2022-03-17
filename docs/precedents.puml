@@ -1,0 +1,48 @@
+@startuml
+
+:Гость: as g
+:Пользователь: as u
+:Владелец Чата: as ca
+
+(Регистрация) as reg
+(Авторизация) as login
+(Выйти) as logout
+(Создать чат) as cc
+(Обновить инфо о чате) as uci
+(Удалить чат) as dc
+(Получить инфо о чате) as gci
+(Пригласить юзера в чат) as autc
+(Забанить юзера) as bufc
+(Покинуть чат) as lc
+(Вернуться в чат) as btc
+(Посмотреть пользователей чата) as wclou
+(Отправить сообщение в чат) as sm
+(Получить все сообщения из чата) as gamfc
+
+g -u-> login
+g -u-> reg
+
+u --> logout
+u -u-> cc
+u -d-> gci
+u -d-> wclou
+u -d-> sm
+u -d-> gamfc
+u -d-> lc
+u -d-> btc
+
+
+ca -u-> logout
+ca -d-> uci
+ca -d-> dc
+ca -d-> autc
+ca -d-> bufc
+ca -u-> sm
+ca -u-> wclou
+ca -u-> gamfc
+ca -u-> lc
+ca -u-> btc
+ca -u-> gci
+
+
+@enduml
