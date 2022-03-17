@@ -27,5 +27,10 @@ class ChatService:
     def get_chat_by_id(self, chat_id: int) -> Chat:
         return self.chat_repo.get_by_id(chat_id)
 
+    def remove_chat(self, chat_id: int):
+        self.chat_repo.remove(chat_id)
 
 
+@component
+class UserService:
+    pass
