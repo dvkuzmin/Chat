@@ -3,6 +3,7 @@ from dataclasses import asdict, dataclass
 from pprint import pprint
 from typing import Any
 
+# Добавляем какие то фикстуры для тестирования
 
 user_1 = User(1, 'Vasya', '911')
 user_2 = User(2, 'Vanya', '01')

@@ -4,14 +4,14 @@ from backend.chat.adapters.storage import repositories
 from backend.chat.application.entities import Chat, User
 
 
-class MessageInfo(DTO):
-    user_id: int
-    text: str
-
-
-class ChatInfo(DTO):
-    user_id: int
-    title: str
+# class MessageInfo(DTO):
+#     user_id: int
+#     text: str
+#
+#
+# class ChatInfo(DTO):
+#     user_id: int
+#     title: str
 
 
 # @component

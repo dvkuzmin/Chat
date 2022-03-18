@@ -4,6 +4,9 @@
 Стэк технологий:
 python 3.7, falcon 3, storage (files or dicts), pytest *gevent
 
+
+
+
 ### Требования к коду
     1. Clean architecture
     2. SOLID
@@ -37,3 +40,5 @@ python 3.7, falcon 3, storage (files or dicts), pytest *gevent
     2. Аутентификация,
     3. Каждый запрос, а также задачи ввода/вывода (I/O) должны обрабатываться в отдельном greenlet (при помощи
     gevent), чтобы не блокировать основной поток выполнения.
+
+запуск проекта из папки backend/chat/composites/ команда gunicorn -b 127.0.0.1:port chat_api:app --reload, либо запуском файла chat_api.py

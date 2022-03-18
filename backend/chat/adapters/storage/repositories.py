@@ -57,7 +57,7 @@ class ChatRepo(interfaces.ChatRepo):
 
 class MessageRepo(interfaces.MessageRepo):
 
-    def get_by_id(self, mesage_id: int) -> Optional[Message]:
+    def get_by_id(self, message_id: int) -> Optional[Message]:
         pass
 
     def create(self, chat: Chat):
