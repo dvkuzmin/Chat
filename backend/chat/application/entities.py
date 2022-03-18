@@ -12,37 +12,39 @@ class User:
 
 @dataclass
 class Message:
-    id: str
+    id: int
     user: User
     chat: 'Chat'
     message: str
 
-#
+
 # @dataclass
 # class BannedUser:
 #     user: User
 #     chat: Chat
 
 
-@dataclass
-class UserChat:
-    user: User
-    chat: 'Chat'
+# @dataclass
+# class UserChat:
+#     chat: 'Chat'
+#     user: List[User]
 
 
 @dataclass
 class Chat:
-
     id: int
     title: str
     admin: User
-    users: List[User]
+    users: List[User] = None
     # banned: List[User] = None
 
     def add_user(self, user: User):
         if user not in self.users:
             self.users.append(user)
 
-    def remove_user(self, user):
+    def remove_user(self, user: User):
         if user in self.users:
             self.users.remove(user)
+
+    def modify_chat_info(self, title: str):
+        self.title = title
