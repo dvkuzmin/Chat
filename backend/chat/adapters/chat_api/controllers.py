@@ -3,6 +3,7 @@ from backend.chat.application import services
 from falcon import Request, Response
 import falcon
 import json
+from backend.chat.application.services import ChatInfoDTO
 
 
 # @component
@@ -24,12 +25,13 @@ class ChatInfo:
         "title": str
         }
         """
-        data = req.get_media()
-        chat_id = int(data['id'])
-        title = data['title']
-        self.chat.modify_chat_info(chat_id, title)
-        resp.body = json.dumps({'modified': f'{chat_id = } with {title = }'})
-        resp.location = f'/chat/{chat_id}/'
+        try:
+            chat_info = ChatInfoDTO(**req.get_media())
+        except Exception:
+            raise falcon.HTTP_400
+        self.chat.modify_chat_info(chat_info)
+        resp.body = json.dumps({'modified': f'{chat_info.id = } with {chat_info.title = }'})
+        resp.location = f'/chat/{chat_info.id}/'
 
 
 class ChatCreate:
@@ -42,8 +44,9 @@ class ChatCreate:
         "chat_owner": int
         }
         """
-        data = req.get_media()
-        chat_owner = int(data['chat owner'])
-        title = data['title']
-        new_chat = self.chat.create_chat(title, chat_owner)
+        try:
+            chat_info = ChatInfoDTO(**req.get_media())
+        except Exception:
+            raise falcon.HTTP_400
+        new_chat = self.chat.create_chat(chat_info)
         resp.body = json.dumps({f'created': f'new chat with title {new_chat.title} with id = {new_chat.id}'})

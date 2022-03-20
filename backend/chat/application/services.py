@@ -1,25 +1,23 @@
-from classic.app import DTO, validate_with_dto
 from classic.components import component
+from classic.app import DTO, validate_with_dto
 from backend.chat.adapters.storage import repositories
 from backend.chat.application.entities import Chat, User
+from pydantic import BaseModel
+from typing import Optional
 
 
-# class MessageInfo(DTO):
-#     user_id: int
-#     text: str
-#
-#
-# class ChatInfo(DTO):
-#     user_id: int
-#     title: str
+class ChatInfoDTO(BaseModel):
+    id: Optional[int]
+    title: str
+    chat_owner: Optional[int]
 
 
 # @component
 class ChatService:
     chat_repo = repositories.ChatRepo()
 
-    def create_chat(self, title: str, chat_owner: int) -> Chat:
-        return self.chat_repo.create(title, chat_owner)
+    def create_chat(self, chat_info: ChatInfoDTO) -> Chat:
+        return self.chat_repo.create(chat_info.title, chat_info.chat_owner)
 
     def get_chat_by_id(self, chat_id: int) -> Chat:
         return self.chat_repo.get_by_id(chat_id)
@@ -27,11 +25,11 @@ class ChatService:
     def remove_chat(self, chat_id: int):
         self.chat_repo.remove(chat_id)
 
-    def modify_chat_info(self, chat_id: int, title: str):
-        self.chat_repo.modify_chat_info(chat_id, title)
+    def modify_chat_info(self, chat_info: ChatInfoDTO):
+        self.chat_repo.modify_chat_info(chat_info.id, chat_info.title)
 
 
-@component
+# @component
 class UserService:
     user_repo: repositories.UsersRepo
 
