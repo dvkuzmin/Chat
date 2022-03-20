@@ -1,14 +1,20 @@
-import falcon
-from backend.chat.adapters.chat_api.controllers import ChatInfo, ChatCreate
-from wsgiref.simple_server import make_server
-
-app = falcon.App()
-
-app.add_route('/chatinfo/{chat_id}/', ChatInfo())
-app.add_route('/chatinfo/', ChatInfo())
-app.add_route('/chat/create/', ChatCreate())
+from backend.chat.adapters import storage, chat_api
+from backend.chat.application import services
 
 
-with make_server('localhost', 8000, app) as httpd:
-    print(f'Server running on http://localhost:{httpd.server_port} ...')
-    httpd.serve_forever()
+class Application:
+
+    chat = services.ChatService(
+        chat_repo=storage.repositories.ChatRepo(),
+        user_repo=storage.repositories.UserRepo(),
+        message_repo=storage.repositories.MessageRepo(),
+    )
+    user = services.UserService(
+        user_repo=storage.repositories.UserRepo(),
+    )
+
+
+app = chat_api.create_app(
+    chat=Application.chat,
+    user=Application.user,
+)
