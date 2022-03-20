@@ -1,36 +1,32 @@
 from abc import abstractmethod, ABC
 from dataclasses import dataclass
-from typing import Optional
-from backend.chat.application.entities import Chat, User
+from typing import Optional, List
+from backend.chat.application.entities import Chat, User, Message
 
 
-class UsersRepo(ABC):
+class UserRepo(ABC):
 
     @abstractmethod
     def get_by_id(self, user_id: int) -> Optional[User]:
         ...
 
-    # @abstractmethod
-    # def add(self, user: User):
-    #     ...
-
     @abstractmethod
-    def create(self, name: str, phone: str):
+    def create(self, name: str, phone: str, password: str):
         ...
 
     @abstractmethod
-    def remove(self, user_id: int):
+    def login(self, name: str, password: str) -> str:
         ...
 
 
 class ChatRepo(ABC):
 
     @abstractmethod
-    def get_by_id(self, chat_id: int):
+    def get_by_id(self, chat_id: int) -> Optional[Chat]:
         ...
 
     @abstractmethod
-    def create(self, title: str, chat_owner: str):
+    def create_chat(self, title: str, chat_owner: int) -> Chat:
         ...
 
     @abstractmethod
@@ -38,20 +34,29 @@ class ChatRepo(ABC):
         ...
 
     @abstractmethod
-    def send_message(self, chat_id: int, text: str):
+    def update_chat_info(self, chat_id: int, title: str) -> Optional[Chat]:
+        ...
+
+    @abstractmethod
+    def get_all_users(self, chat_id: int):
+        ...
+
+    @abstractmethod
+    def get_all_messages(self, chat_id: int):
+        ...
+
+    @abstractmethod
+    def add_user(self, chat_id: int, user_id: int):
+        ...
+
+    @abstractmethod
+    def add_message(self, chat_id: int, user_id: int):
         ...
 
 
 class MessageRepo(ABC):
 
     @abstractmethod
-    def get_by_id(self, message_id: int):
+    def create(self, user_id: int, message: str) -> Message:
         ...
 
-    @abstractmethod
-    def create(self, chat: Chat):
-        ...
-
-    @abstractmethod
-    def remove(self, message_id: int):
-        ...
