@@ -42,14 +42,16 @@ class ChatRepo(interfaces.ChatRepo):
         chat = self.get_by_id(chat_id)
         if chat:
             all_users = []
+            user_fields = {}
             users_ids = chat.users
             if users_ids:
                 for user_id in users_ids:
                     user = storage.users[user_id]
-                    if user['token']:
-                        user.pop('token')
-                    user.pop('password')
-                    all_users.append(user)
+                    user_fields.update(user)
+                    if user_fields['token']:
+                        user_fields.pop('token')
+                    user_fields.pop('password')
+                    all_users.append(user_fields)
                 return all_users
             else:
                 return [{f'{chat_id = }': "No users in chat"}]
@@ -72,7 +74,6 @@ class ChatRepo(interfaces.ChatRepo):
             storage.chats[chat_id]['users'].append(user_id)
         else:
             storage.chats[chat_id]['users'] = [user_id]
-
 
     def add_message(self, chat_id: int, message_id: int):
         if storage.chats[chat_id]['messages']:

@@ -52,12 +52,10 @@ class ChatService:
     def _is_chat_member(self, chat_id: int, user_id: int):
         chat = self.get_chat_by_id(chat_id)
         user = self.get_user_by_id(user_id)
-        print(chat)
         if chat.users:
             if user.id in chat.users or user.id == chat.chat_owner:
                 return True
         elif user.id == chat.chat_owner:
-            print('we are here')
             return True
         else:
             raise errrors.NoRightsError
@@ -105,7 +103,6 @@ class ChatService:
 
     @validate_arguments
     def get_all_users(self, chat_id: int, user_id: int) -> Optional[List[dict]]:
-        print(chat_id, user_id)
         if self._is_chat_member(chat_id, user_id):
             return self.chat_repo.get_all_users(chat_id)
 
