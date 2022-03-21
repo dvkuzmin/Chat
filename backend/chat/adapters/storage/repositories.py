@@ -3,6 +3,7 @@ from dataclasses import asdict
 import hashlib
 import jwt
 
+
 from . import storage
 from backend.chat.application import interfaces
 from backend.chat.application.entities import User, Message, Chat

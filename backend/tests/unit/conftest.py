@@ -10,7 +10,7 @@ def user_repo(user):
     user_repo = Mock(interfaces.UserRepo)
     user_repo.create = Mock(return_value=None)
     user_repo.login = Mock(return_value=None)
-    user_repo.get_by_id = Mock(return_value=[user])
+    user_repo.get_by_id = Mock(return_value=user)
 
     return user_repo
 
@@ -23,6 +23,7 @@ def chat_repo(chat, user):
     chat_repo.remove = Mock(return_value=None)
     chat_repo.update_chat_info = Mock(return_value=chat)
     chat_repo.get_all_users = Mock(return_value=[user])
+    chat_repo.add_message = Mock(return_value=None)
 
     return chat_repo
 

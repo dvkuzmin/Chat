@@ -99,7 +99,7 @@ class ChatService:
     def send_message(self, message_info: MessageInfoDTO) -> Optional[Message]:
         if self._is_chat_member(message_info.chat_id, message_info.user_id):
             message = self.message_repo.create(message_info.user_id, message_info.message)
-            chat = self.chat_repo.get_by_id(message_info.chat_id)
+            # chat = self.chat_repo.get_by_id(message_info.chat_id)
             self.chat_repo.add_message(message_info.chat_id, message.id)
             return message
 
