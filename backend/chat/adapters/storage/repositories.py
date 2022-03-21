@@ -43,11 +43,11 @@ class ChatRepo(interfaces.ChatRepo):
         if chat:
             all_users = []
             users_ids = chat.users
-            print(chat)
             if users_ids:
                 for user_id in users_ids:
                     user = storage.users[user_id]
-                    user.pop('token')
+                    if user['token']:
+                        user.pop('token')
                     user.pop('password')
                     all_users.append(user)
                 return all_users
@@ -72,6 +72,7 @@ class ChatRepo(interfaces.ChatRepo):
             storage.chats[chat_id]['users'].append(user_id)
         else:
             storage.chats[chat_id]['users'] = [user_id]
+
 
     def add_message(self, chat_id: int, message_id: int):
         if storage.chats[chat_id]['messages']:
@@ -119,6 +120,10 @@ class UserRepo(interfaces.UserRepo):
         for user_id in storage.users:
             if storage.users[user_id]['name'] == name and storage.users[user_id]['password'] == \
                     hashlib.sha256(password.encode()).hexdigest():
-                token = jwt.encode({"user_id": user_id}, storage.SECRET, algorithm="HS256")
-                storage.users[user_id]['token'] = token
+                if not storage.users[user_id]['token']:
+                    token = jwt.encode({"user_id": user_id}, storage.SECRET, algorithm="HS256")
+                    storage.users[user_id]['token'] = token
+                else:
+                    token = storage.users[user_id]['token']
                 return token
+
