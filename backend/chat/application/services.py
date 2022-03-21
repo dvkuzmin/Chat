@@ -52,19 +52,19 @@ class ChatService:
     def _is_chat_member(self, chat_id: int, user_id: int):
         chat = self.get_chat_by_id(chat_id)
         user = self.get_user_by_id(user_id)
+        print(chat)
         if chat.users:
-            if user.id in chat.users:
+            if user.id in chat.users or user.id == chat.chat_owner:
                 return True
         elif user.id == chat.chat_owner:
+            print('we are here')
             return True
         else:
             raise errrors.NoRightsError
 
     @validate_with_dto
     def create_chat(self, chat_info: ChatInfoDTO) -> Chat:
-        user = self.user_repo.get_by_id(chat_info.chat_owner)
-        if user:
-            return self.chat_repo.create_chat(chat_info.title, chat_info.chat_owner)
+        return self.chat_repo.create_chat(chat_info.title, chat_info.user_id)
 
     @validate_arguments
     def get_chat_by_id(self, chat_id: int) -> Optional[Chat]:
@@ -105,6 +105,7 @@ class ChatService:
 
     @validate_arguments
     def get_all_users(self, chat_id: int, user_id: int) -> Optional[List[dict]]:
+        print(chat_id, user_id)
         if self._is_chat_member(chat_id, user_id):
             return self.chat_repo.get_all_users(chat_id)
 

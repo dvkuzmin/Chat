@@ -30,11 +30,15 @@ class User:
         }
         """
         token = self.user.login(**request.media)
-        response.set_header("AUTH-TOKEN", token)
-        response.media = {
-            'message': 'Login complete successful'
-        }
-
+        if token:
+            response.set_header("AUTH-TOKEN", token)
+            response.media = {
+                'message': 'Login complete successful'
+            }
+        else:
+            response.media = {
+                'invalid': 'no user'
+            }
 
 @component
 class Chat:
