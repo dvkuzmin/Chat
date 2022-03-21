@@ -9,7 +9,7 @@ def service(user_repo):
     return UserService(user_repo=user_repo)
 
 
-def test__create_user(service, user_repo):
+def test_create_user(service, user_repo):
     new_user = {
         'name': 'vasya',
         'phone': '911',
@@ -19,7 +19,7 @@ def test__create_user(service, user_repo):
     assert service.create_user(**new_user) == user_repo.create()
 
 
-def test__create_user_bad(service):
+def test_create_user_bad(service):
     new_user = {
         'name': 'vasya',
         'phone': '911'
@@ -27,3 +27,20 @@ def test__create_user_bad(service):
 
     with pytest.raises(ValidationError):
         service.create_user(**new_user)
+
+
+def test_login_user(service, user_repo):
+    new_user = {
+        'name': 'vasya',
+        'password': 'qwerty'
+    }
+
+    assert service.login(**new_user) == user_repo.create()
+
+
+def test_login_user_bad(service, user_repo):
+    new_user = {
+        'name': 'vasya'
+    }
+    with pytest.raises(ValidationError):
+        assert service.login(**new_user)

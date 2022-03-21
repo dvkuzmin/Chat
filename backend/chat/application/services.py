@@ -140,4 +140,3 @@ class UserService:
     @validate_with_dto
     def login(self, user_info: UserInfoDTO) -> str:
         return self.user_repo.login(user_info.name, user_info.password)
-

@@ -8,22 +8,23 @@ from backend.chat.application import interfaces
 @pytest.fixture(scope='function')
 def user_repo(user):
     user_repo = Mock(interfaces.UserRepo)
-    user_repo.create = Mock(return_value=None)
-    user_repo.login = Mock(return_value=None)
+    user_repo.create = Mock(return_value=user)
+    user_repo.login = Mock(return_value=user)
     user_repo.get_by_id = Mock(return_value=user)
 
     return user_repo
 
 
 @pytest.fixture(scope='function')
-def chat_repo(chat, user):
+def chat_repo(chat, user, message):
     chat_repo = Mock(interfaces.ChatRepo)
     chat_repo.get_by_id = Mock(return_value=chat)
-    chat_repo.create_chat = Mock(return_value=None)
+    chat_repo.create_chat = Mock(return_value=chat)
     chat_repo.remove = Mock(return_value=None)
     chat_repo.update_chat_info = Mock(return_value=chat)
     chat_repo.get_all_users = Mock(return_value=[user])
     chat_repo.add_message = Mock(return_value=None)
+    chat_repo.get_all_messages = Mock(return_value=[message])
 
     return chat_repo
 
