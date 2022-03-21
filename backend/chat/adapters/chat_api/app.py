@@ -1,12 +1,8 @@
-from typing import Tuple, Union
-
-import falcon
-
 from classic.http_api import App
 
 from backend.chat.application import services
 
-from . import auth, controllers
+from . import controllers
 
 
 def create_app(
